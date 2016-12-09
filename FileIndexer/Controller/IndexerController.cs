@@ -6,6 +6,20 @@ namespace FileIndexer.Controller
 {
     public class IndexerController
     {
+        private FileSystemInfo selectedFile = null;
+        public FileSystemInfo SelectedFile
+        {
+            get
+            {
+                return selectedFile;
+            }
+
+            set
+            {
+                selectedFile = value;
+            }
+        }
+
         private TreeNode<FileSystemInfo> _tree;
         public TreeNode<FileSystemInfo> Tree
         {

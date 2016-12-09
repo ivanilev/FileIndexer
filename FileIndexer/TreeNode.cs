@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace FileIndexer
 {
@@ -29,14 +30,7 @@ namespace FileIndexer
             Children.Add(nodeItem);
             return nodeItem;
         }
-        public void AddChildren(IEnumerable<T> list)
-        {
-            foreach (var item in list)
-            {
-                AddChild(item);
-            }
-        }
-
+       
         public T GetCurrentNodeData()
         {
             return Item;
@@ -44,6 +38,19 @@ namespace FileIndexer
         public List<TreeNode<T>> GetCurrentNodeChildren()
         {
             return Children;
+        }
+
+        public T SearchItem(T item)
+        {
+            if (Item.Equals(item)) { return Item; }
+            else
+            {
+                foreach (TreeNode<T> child in Children)
+                {
+                    if (child.Equals(SearchItem(item))) { return child.GetCurrentNodeData(); }
+                }
+            }
+            throw new Exception("Element not found.");
         }
     }
 }

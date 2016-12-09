@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -79,19 +80,33 @@ namespace FileIndexer
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            FileSystemInfo fsi;
+            string selectedNodeFullFilePath = string.Empty;
 
-            string result = string.Empty;
             if (ic.MyDict.Any(kvp => kvp.Key.Contains(treeView1.SelectedNode.Text)))
             {
-                result = ic.MyDict.Keys.SingleOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
+                selectedNodeFullFilePath = ic.MyDict.Keys.SingleOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
             }
-
-            if (string.IsNullOrEmpty(result))
+            else
             {
-                result = "Error!";
+                tbSelectedNode.BackColor = Color.Red;
+                tbSelectedNode.Text = "Error, file not found!";
             }
 
-            tbSelectedNode.Text = result;
+            bool itworks = ic.MyDict.TryGetValue(selectedNodeFullFilePath, out fsi);
+
+            if (!itworks)
+            {
+                tbSelectedNode.BackColor = System.Drawing.Color.Red;
+                tbSelectedNode.Text = "Error!";
+            }
+            else
+            {
+                ic.SelectedFile = fsi;
+                tbSelectedNode.Text = fsi.FullName;
+                tbSelectedNode.BackColor = SystemColors.Control;
+            }
+
         }
     }
 }
