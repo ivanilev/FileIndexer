@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelTopContainer = new System.Windows.Forms.Panel();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@
             this.tbSelectedNode = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.indexerControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelTopContainer.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
@@ -47,7 +45,6 @@
             this.SplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelBotContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopContainer
@@ -125,7 +122,6 @@
             // 
             // tbSelectedNode
             // 
-            this.tbSelectedNode.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.indexerControllerBindingSource, "FilePath", true));
             this.tbSelectedNode.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tbSelectedNode.Location = new System.Drawing.Point(0, 35);
             this.tbSelectedNode.Name = "tbSelectedNode";
@@ -141,10 +137,6 @@
             this.treeView1.Size = new System.Drawing.Size(477, 515);
             this.treeView1.TabIndex = 1;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
-            // indexerControllerBindingSource
-            // 
-            this.indexerControllerBindingSource.DataSource = typeof(FileIndexer.Controller.IndexerController);
             // 
             // Form1
             // 
@@ -165,7 +157,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelBotContainer.ResumeLayout(false);
             this.panelBotContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -185,7 +176,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn sizeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
         private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.BindingSource indexerControllerBindingSource;
     }
 }
 

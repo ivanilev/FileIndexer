@@ -6,52 +6,73 @@ namespace FileIndexer.Controller
 {
     public class IndexerController
     {
-        private List<FileInfo> _dataInfo;
-        private string _filePath;
+        private TreeNode<FileSystemInfo> _tree;
+        public TreeNode<FileSystemInfo> Tree
+        {
+            get { return _tree; }
+            private set { _tree = value; }
+        }
 
-        public List<FileInfo> DataInfo
+        private Dictionary<string, FileSystemInfo> _myDict = new Dictionary<string, FileSystemInfo>();
+        public Dictionary<string, FileSystemInfo> MyDict
         {
             get
             {
-                return _dataInfo;
+                return _myDict;
             }
 
             set
             {
-                _dataInfo = value;
-            }
-        }
-        public string FilePath
-        {
-            get
-            {
-                return _filePath;
-            }
-
-            set
-            {
-                _filePath = value;
+                _myDict = value;
             }
         }
 
+        /// <summary>
+        /// Iterates through a folder and indexes all files and folders inside.
+        /// </summary>
+        /// <param name="filepath">The full file path to the folder.</param>
+        /// <returns>Returns a Tree of all files and folders inside.</returns>
         public TreeNode<FileSystemInfo> GetAllFilesRecursively(string filepath)
         {
+            //If the path doesn't exist stop execution
             if (!Directory.Exists(filepath))
                 return null;
 
+            //Get the root directory
             DirectoryInfo rootDirectory = new DirectoryInfo(filepath);
+
+            //Create a tree to be returned as the result
             TreeNode<FileSystemInfo> myTreeResult = new TreeNode<FileSystemInfo>(rootDirectory);
-            List<FileSystemInfo> directories = new List<FileSystemInfo>();
 
-            myTreeResult.AddChildren(rootDirectory.GetFiles());
-            directories.AddRange(rootDirectory.GetDirectories());
+            //Get all files and folders inside
+            List<FileSystemInfo> currentNodeFilesAndFoldersList = new List<FileSystemInfo>();
+            currentNodeFilesAndFoldersList.AddRange(rootDirectory.GetFileSystemInfos());
 
-            foreach (DirectoryInfo directory in directories)
+            //Add the root folder as well, this is useful only during the first iteration
+            if (!MyDict.ContainsKey(filepath))
+                MyDict.Add(filepath, rootDirectory);
+
+
+            //Iterate through all files and folders in the current folder
+            foreach (FileSystemInfo item in currentNodeFilesAndFoldersList)
             {
-                TreeNode<FileSystemInfo> subTree = GetAllFilesRecursively(directory.FullName);
-                myTreeResult.AddChild(subTree);
+                //Index the file or folder in a dictionary
+                MyDict.Add(item.FullName, item);
+
+                //If it's a file add it directly
+                if (item.GetType() == typeof(FileInfo))
+                {
+                    myTreeResult.AddChild(item);
+                }
+                //If it's a folder - iterate through it, save the result in a Treenode<FileSystemInfo> type and add that node to the main tree.
+                else 
+                {
+                    TreeNode<FileSystemInfo> subTree = GetAllFilesRecursively(item.FullName);
+                    myTreeResult.AddChild(subTree);
+                }
             }
-            return myTreeResult;
+
+            return Tree = myTreeResult;
         }
     }
 }
