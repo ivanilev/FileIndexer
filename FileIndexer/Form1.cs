@@ -107,6 +107,9 @@ namespace FileIndexer
                 tbSelectedNode.BackColor = SystemColors.Control;
             }
 
+
+           
+            tbFileInfo.Text = ic.GetFileInfo(ic.SelectedFile);
         }
     }
 }

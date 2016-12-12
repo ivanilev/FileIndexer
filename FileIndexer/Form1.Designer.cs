@@ -28,23 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panelTopContainer = new System.Windows.Forms.Panel();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panelBotContainer = new System.Windows.Forms.Panel();
             this.tbSelectedNode = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tbFileInfo = new System.Windows.Forms.TextBox();
+            this.indexerControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelTopContainer.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
             this.SplitContainer.Panel1.SuspendLayout();
+            this.SplitContainer.Panel2.SuspendLayout();
             this.SplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelBotContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopContainer
@@ -99,9 +104,18 @@
             // SplitContainer.Panel2
             // 
             this.SplitContainer.Panel2.AccessibleName = "SplitContainerRightPanel";
+            this.SplitContainer.Panel2.Controls.Add(this.tbFileInfo);
             this.SplitContainer.Size = new System.Drawing.Size(984, 515);
             this.SplitContainer.SplitterDistance = 477;
             this.SplitContainer.TabIndex = 0;
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(477, 515);
+            this.treeView1.TabIndex = 1;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // dataGridView1
             // 
@@ -130,13 +144,19 @@
             this.tbSelectedNode.TabIndex = 4;
             this.tbSelectedNode.WordWrap = false;
             // 
-            // treeView1
+            // tbFileInfo
             // 
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(477, 515);
-            this.treeView1.TabIndex = 1;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.tbFileInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbFileInfo.Location = new System.Drawing.Point(2, 3);
+            this.tbFileInfo.Multiline = true;
+            this.tbFileInfo.Name = "tbFileInfo";
+            this.tbFileInfo.ReadOnly = true;
+            this.tbFileInfo.Size = new System.Drawing.Size(498, 509);
+            this.tbFileInfo.TabIndex = 0;
+            // 
+            // indexerControllerBindingSource
+            // 
+            this.indexerControllerBindingSource.DataSource = typeof(FileIndexer.Controller.IndexerController);
             // 
             // Form1
             // 
@@ -152,11 +172,14 @@
             this.panelTopContainer.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.SplitContainer.Panel1.ResumeLayout(false);
+            this.SplitContainer.Panel2.ResumeLayout(false);
+            this.SplitContainer.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
             this.SplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panelBotContainer.ResumeLayout(false);
             this.panelBotContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -172,10 +195,9 @@
         private System.Windows.Forms.Button btnSelectFolder;
         private System.Windows.Forms.TextBox tbSelectedNode;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn locationDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn sizeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.BindingSource indexerControllerBindingSource;
+        private System.Windows.Forms.TextBox tbFileInfo;
     }
 }
 

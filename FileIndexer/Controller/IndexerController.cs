@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace FileIndexer.Controller
 {
@@ -87,6 +88,69 @@ namespace FileIndexer.Controller
             }
 
             return Tree = myTreeResult;
+        }
+        
+
+
+
+        /// <summary>
+        /// Retrieves information about a file or folder in string format.
+        /// </summary>
+        /// <param name="DataInfo">A file or folder.</param>
+        /// <returns>Information in the form of string.</returns>
+        public string GetFileInfo(FileSystemInfo DataInfo)
+        {
+
+
+            StringBuilder result = new StringBuilder();
+            if (DataInfo.Exists == false) { return string.Empty; }
+
+            
+            result.Append("Creation time:\t");//Some lines use a single "\t" and others double "\t\t".
+            result.AppendLine(DataInfo.CreationTime.ToString()); //A tab character will align text to the next tab stop, which is about 8 characters. 
+            result.AppendLine();
+
+
+            result.Append("Directory:\t\t");
+            if (DataInfo.GetType() == typeof(DirectoryInfo))
+            {
+                DirectoryInfo di = DataInfo as DirectoryInfo;
+                result.AppendLine(di.FullName);
+            }
+            else
+            {
+                FileInfo fi = DataInfo as FileInfo;
+                result.AppendLine(fi.Directory.FullName);
+            }
+            result.AppendLine();
+
+            result.Append("Name:\t\t");
+            result.AppendLine(DataInfo.Name);
+            result.AppendLine();
+
+            result.Append("Last used:\t");
+            result.AppendLine(DataInfo.LastAccessTime.ToString());
+            result.AppendLine();
+
+
+            result.Append("Read only:\t");
+            if (DataInfo.GetType() == typeof(FileInfo)) //Only if it's a file extentions will be displayed.
+            {
+                FileInfo fi = DataInfo as FileInfo;
+                result.AppendLine(fi.IsReadOnly.ToString());
+                result.AppendLine();
+
+                result.Append("Extention:\t\t");
+                result.AppendLine(fi.Extension.ToString());
+            }
+            else 
+            {
+                DirectoryInfo di = DataInfo as DirectoryInfo;
+                result.AppendLine(di.Attributes.HasFlag(FileAttributes.ReadOnly).ToString());
+            }
+            result.AppendLine();
+
+            return result.ToString();
         }
     }
 }
