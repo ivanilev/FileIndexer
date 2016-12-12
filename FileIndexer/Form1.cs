@@ -9,13 +9,68 @@ namespace FileIndexer
 {
     public partial class Form1 : Form
     {
-        public Controller.IndexerController ic = new Controller.IndexerController();
+        public Controller.IndexerController indexController = new Controller.IndexerController();
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        #region Event handlers
+
+        private void btnSelectFolder_Click(object sender, EventArgs e)
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            string selectedPath = folderBrowserDialog1.SelectedPath;
+
+            treeView1.Nodes.Add(PopulateTree(indexController.GetAllFilesRecursively(selectedPath)));
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            FileSystemInfo fsi;
+            string selectedNodeFullFilePath = string.Empty;
+
+            //If the selected note (file or folder) is found in the controller's dictionary - assign its value to "selectedNodeFullFilePath"
+            if (indexController.MyDict.Any(kvp => kvp.Key.Contains(treeView1.SelectedNode.Text)))
+            {
+                selectedNodeFullFilePath = indexController.MyDict.Keys.SingleOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
+            }
+            else
+            {
+                tbSelectedNode.BackColor = Color.Red;
+                tbSelectedNode.Text = "Error, file not found!";
+            }
+
+            bool itworks = indexController.MyDict.TryGetValue(selectedNodeFullFilePath, out fsi);
+
+            if (itworks)
+            {
+                indexController.SelectedFile = fsi;
+                tbSelectedNode.Text = fsi.FullName;
+                tbSelectedNode.BackColor = SystemColors.Control;
+               
+            }
+            else
+            {
+                indexController.SelectedFile = null;
+                tbSelectedNode.BackColor = System.Drawing.Color.Red;
+                tbSelectedNode.Text = "Error!";
+            }
+           
+            tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
+        }
+
+        #endregion Event handlers
+
+        #region Functions
+
+        /// <summary>
+        /// Checks if a node has GrandChildren.
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <returns></returns>
         private bool HasGrandChildren(TreeNode<FileSystemInfo> tree)
         {
             var children = tree.GetCurrentNodeChildren();
@@ -28,7 +83,7 @@ namespace FileIndexer
             }
             return false;
         }
-        
+
         /// <summary>
         /// Recursively iterates through the entire tree and returns a TreeNode of all files and folders within a folder.
         /// </summary>
@@ -36,9 +91,9 @@ namespace FileIndexer
         /// <returns>A tree node of all files and folders within the folder in the parameter.</returns>
         private TreeNode PopulateTree(TreeNode<FileSystemInfo> tree)
         {
-            
+
             List<TreeNode> list = new List<TreeNode>();
-            
+
 
             if (HasGrandChildren(tree) == false)
             {
@@ -66,50 +121,9 @@ namespace FileIndexer
                     }
                 }
                 return new TreeNode(tree.GetCurrentNodeData().Name, list.ToArray());
-            }            
+            }
         }
 
-        private void btnSelectFolder_Click(object sender, EventArgs e)
-        {
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            string selectedPath = folderBrowserDialog1.SelectedPath;
-
-            treeView1.Nodes.Add(PopulateTree(ic.GetAllFilesRecursively(selectedPath)));
-
-        }
-
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            FileSystemInfo fsi;
-            string selectedNodeFullFilePath = string.Empty;
-
-            if (ic.MyDict.Any(kvp => kvp.Key.Contains(treeView1.SelectedNode.Text)))
-            {
-                selectedNodeFullFilePath = ic.MyDict.Keys.SingleOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
-            }
-            else
-            {
-                tbSelectedNode.BackColor = Color.Red;
-                tbSelectedNode.Text = "Error, file not found!";
-            }
-
-            bool itworks = ic.MyDict.TryGetValue(selectedNodeFullFilePath, out fsi);
-
-            if (!itworks)
-            {
-                tbSelectedNode.BackColor = System.Drawing.Color.Red;
-                tbSelectedNode.Text = "Error!";
-            }
-            else
-            {
-                ic.SelectedFile = fsi;
-                tbSelectedNode.Text = fsi.FullName;
-                tbSelectedNode.BackColor = SystemColors.Control;
-            }
-
-
-           
-            tbFileInfo.Text = ic.GetFileInfo(ic.SelectedFile);
-        }
+        #endregion
     }
 }

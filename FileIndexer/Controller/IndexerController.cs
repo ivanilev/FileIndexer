@@ -90,9 +90,6 @@ namespace FileIndexer.Controller
             return Tree = myTreeResult;
         }
         
-
-
-
         /// <summary>
         /// Retrieves information about a file or folder in string format.
         /// </summary>

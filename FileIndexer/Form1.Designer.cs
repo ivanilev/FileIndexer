@@ -166,8 +166,11 @@
             this.Controls.Add(this.panelBotContainer);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelTopContainer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "File Indexer";
             this.panelTopContainer.ResumeLayout(false);
             this.panelTopContainer.PerformLayout();
             this.panel2.ResumeLayout(false);
