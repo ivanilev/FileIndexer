@@ -125,5 +125,21 @@ namespace FileIndexer
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string searchString = tbSearch.Text;
+            string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(searchString));
+            FileSystemInfo foundItem;
+
+            bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out foundItem);
+
+            if (!itworks) { tbSearch.Text = "Error!"; tbSearch.Focus(); return; }
+
+            indexController.SelectedFile = foundItem;
+            tbSelectedNode.Text = foundItem.FullName;
+            tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
+            treeView1.ExpandAll();
+        }
     }
 }

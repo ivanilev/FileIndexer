@@ -36,11 +36,15 @@
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tbFileInfo = new System.Windows.Forms.TextBox();
             this.panelBotContainer = new System.Windows.Forms.Panel();
             this.tbSelectedNode = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.tbFileInfo = new System.Windows.Forms.TextBox();
             this.indexerControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tbSearch = new System.Windows.Forms.TextBox();
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelTopContainer.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
@@ -126,6 +130,16 @@
             this.dataGridView1.Size = new System.Drawing.Size(477, 515);
             this.dataGridView1.TabIndex = 0;
             // 
+            // tbFileInfo
+            // 
+            this.tbFileInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbFileInfo.Location = new System.Drawing.Point(2, 3);
+            this.tbFileInfo.Multiline = true;
+            this.tbFileInfo.Name = "tbFileInfo";
+            this.tbFileInfo.ReadOnly = true;
+            this.tbFileInfo.Size = new System.Drawing.Size(498, 509);
+            this.tbFileInfo.TabIndex = 0;
+            // 
             // panelBotContainer
             // 
             this.panelBotContainer.Controls.Add(this.tbSelectedNode);
@@ -144,29 +158,59 @@
             this.tbSelectedNode.TabIndex = 4;
             this.tbSelectedNode.WordWrap = false;
             // 
-            // tbFileInfo
-            // 
-            this.tbFileInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbFileInfo.Location = new System.Drawing.Point(2, 3);
-            this.tbFileInfo.Multiline = true;
-            this.tbFileInfo.Name = "tbFileInfo";
-            this.tbFileInfo.ReadOnly = true;
-            this.tbFileInfo.Size = new System.Drawing.Size(498, 509);
-            this.tbFileInfo.TabIndex = 0;
-            // 
             // indexerControllerBindingSource
             // 
             this.indexerControllerBindingSource.DataSource = typeof(FileIndexer.Controller.IndexerController);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1008, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // tbSearch
+            // 
+            this.tbSearch.Location = new System.Drawing.Point(72, 4);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.Size = new System.Drawing.Size(187, 20);
+            this.tbSearch.TabIndex = 3;
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblSearch.Location = new System.Drawing.Point(9, 7);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(57, 17);
+            this.lblSearch.TabIndex = 4;
+            this.lblSearch.Text = "Search:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(265, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(57, 20);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Search";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lblSearch);
+            this.Controls.Add(this.tbSearch);
             this.Controls.Add(this.panelBotContainer);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelTopContainer);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
@@ -184,6 +228,7 @@
             this.panelBotContainer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -201,6 +246,10 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.BindingSource indexerControllerBindingSource;
         private System.Windows.Forms.TextBox tbFileInfo;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.TextBox tbSearch;
+        private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.Button button1;
     }
 }
 
