@@ -21,10 +21,27 @@ namespace FileIndexer
         private void btnSelectFolder_Click(object sender, EventArgs e)
         {
             DialogResult result = folderBrowserDialog1.ShowDialog();
+
+            if(result == DialogResult.Cancel) { return; }
+
             string selectedPath = folderBrowserDialog1.SelectedPath;
 
-            treeView1.Nodes.Add(PopulateTree(indexController.GetAllFilesRecursively(selectedPath)));
+            if(treeView1.Nodes.Count>0)
+                treeView1.Nodes.Clear();
 
+            try
+            {
+                treeView1.Nodes.Add(PopulateTree(indexController.GetAllFilesRecursively(selectedPath)));
+            }
+
+            catch(UnauthorizedAccessException ex)
+            {
+                MessageBox.Show(ex.Message);
+                btnSelectFolder.Focus();
+            }
+
+
+            btnSearch.Enabled = true;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -62,6 +79,24 @@ namespace FileIndexer
             tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
         }
 
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchString = tbSearch.Text;
+
+            if (string.IsNullOrEmpty(tbSearch.Text)) { tbSearch.Focus(); return; }
+
+            string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(searchString));
+            FileSystemInfo foundItem;
+
+            bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out foundItem);
+
+            if (!itworks) { tbSearch.Text = "Error!"; tbSearch.Focus(); return; }
+
+            indexController.SelectedFile = foundItem;
+            tbSelectedNode.Text = foundItem.FullName;
+            tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
+            treeView1.ExpandAll();
+        }
         #endregion Event handlers
 
         #region Functions
@@ -126,20 +161,6 @@ namespace FileIndexer
 
         #endregion
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string searchString = tbSearch.Text;
-            string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(searchString));
-            FileSystemInfo foundItem;
-
-            bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out foundItem);
-
-            if (!itworks) { tbSearch.Text = "Error!"; tbSearch.Focus(); return; }
-
-            indexController.SelectedFile = foundItem;
-            tbSelectedNode.Text = foundItem.FullName;
-            tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
-            treeView1.ExpandAll();
-        }
+     
     }
 }
