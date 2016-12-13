@@ -27,7 +27,13 @@ namespace FileIndexer
             string selectedPath = folderBrowserDialog1.SelectedPath;
 
             if(treeView1.Nodes.Count>0)
+            {
                 treeView1.Nodes.Clear();
+                indexController.MyDict.Clear();
+                indexController.Tree.GetCurrentNodeChildren().Clear();
+                indexController.SelectedFile = null;
+            }
+                
 
             try
             {
