@@ -88,21 +88,41 @@ namespace FileIndexer
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string searchString = tbSearch.Text;
+            try
+            {
+                string searchString = tbSearch.Text;
 
-            if (string.IsNullOrEmpty(tbSearch.Text)) { tbSearch.Focus(); return; }
+                if (string.IsNullOrEmpty(tbSearch.Text))
+                    throw new Exception("Item not found"); 
 
-            string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(searchString));
-            FileSystemInfo foundItem;
+                string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(searchString));
 
-            bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out foundItem);
+                if (string.IsNullOrEmpty(fullFilePath))
+                    throw new Exception("Item not found"); 
 
-            if (!itworks) { tbSearch.Text = "Error!"; tbSearch.Focus(); return; }
 
-            indexController.SelectedFile = foundItem;
-            tbSelectedNode.Text = foundItem.FullName;
-            tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
-            treeView1.ExpandAll();
+                FileSystemInfo foundItem;
+
+
+                bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out foundItem);
+
+                if (!itworks)
+                    throw new Exception("Item not found"); 
+
+                indexController.SelectedFile = foundItem;
+                tbSelectedNode.Text = foundItem.FullName;
+                tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
+                treeView1.ExpandAll();
+
+                treeView1.SelectedNode = treeView1.Nodes.Find(foundItem.Name, true)[0];
+            }
+            catch(Exception ex)
+            {
+                tbSearch.Text = ex.Message;
+                tbSearch.Focus();
+                return;
+            }
+           
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -182,6 +202,7 @@ namespace FileIndexer
                 foreach (TreeNode<FileSystemInfo> child in children)
                 {
                     list.Add(new TreeNode(child.GetCurrentNodeData().Name));
+                    list[list.Count - 1].Name = child.GetCurrentNodeData().Name;
                 }
                 return new TreeNode(tree.GetCurrentNodeData().Name, list.ToArray());
             }
@@ -194,10 +215,12 @@ namespace FileIndexer
                     if (child.GetType() == typeof(FileInfo))
                     {
                         list.Add(new TreeNode(child.GetCurrentNodeData().Name));
+                        list[list.Count - 1].Name = child.GetCurrentNodeData().Name;
                     }
                     else
                     {
                         list.Add(PopulateTree(child));
+                        list[list.Count - 1].Name = child.GetCurrentNodeData().Name;
                     }
                 }
                 return new TreeNode(tree.GetCurrentNodeData().Name, list.ToArray());
