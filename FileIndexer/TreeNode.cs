@@ -39,18 +39,6 @@ namespace FileIndexer
         {
             return Children;
         }
-
-        public T SearchItem(T item)
-        {
-            if (Item.Equals(item)) { return Item; }
-            else
-            {
-                foreach (TreeNode<T> child in Children)
-                {
-                    if (child.Equals(SearchItem(item))) { return child.GetCurrentNodeData(); }
-                }
-            }
-            throw new Exception("Element not found.");
-        }
+        
     }
 }
