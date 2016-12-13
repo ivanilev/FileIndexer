@@ -1,6 +1,6 @@
 ﻿namespace FileIndexer
 {
-    partial class Form1
+    partial class FileIndex
     {
         /// <summary>
         /// Required designer variable.
@@ -36,6 +36,7 @@
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.pbFileImage = new System.Windows.Forms.PictureBox();
             this.tbFileInfo = new System.Windows.Forms.TextBox();
             this.panelBotContainer = new System.Windows.Forms.Panel();
             this.tbSelectedNode = new System.Windows.Forms.TextBox();
@@ -52,6 +53,7 @@
             this.SplitContainer.Panel2.SuspendLayout();
             this.SplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFileImage)).BeginInit();
             this.panelBotContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -108,6 +110,7 @@
             // SplitContainer.Panel2
             // 
             this.SplitContainer.Panel2.AccessibleName = "SplitContainerRightPanel";
+            this.SplitContainer.Panel2.Controls.Add(this.pbFileImage);
             this.SplitContainer.Panel2.Controls.Add(this.tbFileInfo);
             this.SplitContainer.Size = new System.Drawing.Size(984, 515);
             this.SplitContainer.SplitterDistance = 477;
@@ -120,6 +123,7 @@
             this.treeView1.Size = new System.Drawing.Size(477, 515);
             this.treeView1.TabIndex = 1;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
             // 
             // dataGridView1
             // 
@@ -130,15 +134,29 @@
             this.dataGridView1.Size = new System.Drawing.Size(477, 515);
             this.dataGridView1.TabIndex = 0;
             // 
+            // pbFileImage
+            // 
+            this.pbFileImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbFileImage.Enabled = false;
+            this.pbFileImage.Location = new System.Drawing.Point(0, 0);
+            this.pbFileImage.Name = "pbFileImage";
+            this.pbFileImage.Size = new System.Drawing.Size(503, 515);
+            this.pbFileImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFileImage.TabIndex = 1;
+            this.pbFileImage.TabStop = false;
+            this.pbFileImage.Visible = false;
+            this.pbFileImage.DoubleClick += new System.EventHandler(this.pbFileImage_DoubleClick);
+            // 
             // tbFileInfo
             // 
             this.tbFileInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tbFileInfo.Location = new System.Drawing.Point(2, 3);
+            this.tbFileInfo.Location = new System.Drawing.Point(0, 0);
             this.tbFileInfo.Multiline = true;
             this.tbFileInfo.Name = "tbFileInfo";
             this.tbFileInfo.ReadOnly = true;
-            this.tbFileInfo.Size = new System.Drawing.Size(498, 509);
+            this.tbFileInfo.Size = new System.Drawing.Size(503, 515);
             this.tbFileInfo.TabIndex = 0;
+            this.tbFileInfo.DoubleClick += new System.EventHandler(this.tbFileInfo_DoubleClick);
             // 
             // panelBotContainer
             // 
@@ -186,6 +204,7 @@
             // 
             // btnSearch
             // 
+            this.btnSearch.Enabled = false;
             this.btnSearch.Location = new System.Drawing.Point(265, 4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(57, 20);
@@ -198,7 +217,7 @@
             // 
             this.indexerControllerBindingSource.DataSource = typeof(FileIndexer.Controller.IndexerController);
             // 
-            // Form1
+            // FileIndex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -214,7 +233,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FileIndex";
             this.Text = "File Indexer";
             this.panelTopContainer.ResumeLayout(false);
             this.panelTopContainer.PerformLayout();
@@ -225,6 +244,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).EndInit();
             this.SplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFileImage)).EndInit();
             this.panelBotContainer.ResumeLayout(false);
             this.panelBotContainer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).EndInit();
@@ -251,6 +271,7 @@
         private System.Windows.Forms.TextBox tbSearch;
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.PictureBox pbFileImage;
     }
 }
 

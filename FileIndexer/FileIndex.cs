@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace FileIndexer
 {
-    public partial class Form1 : Form
+    public partial class FileIndex : Form
     {
         public Controller.IndexerController indexController = new Controller.IndexerController();
 
-        public Form1()
+        public FileIndex()
         {
             InitializeComponent();
         }
@@ -42,6 +42,7 @@ namespace FileIndexer
 
 
             btnSearch.Enabled = true;
+            tbSearch.Enabled = true;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -52,7 +53,7 @@ namespace FileIndexer
             //If the selected note (file or folder) is found in the controller's dictionary - assign its value to "selectedNodeFullFilePath"
             if (indexController.MyDict.Any(kvp => kvp.Key.Contains(treeView1.SelectedNode.Text)))
             {
-                selectedNodeFullFilePath = indexController.MyDict.Keys.SingleOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
+                selectedNodeFullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.EndsWith(treeView1.SelectedNode.Text));
             }
             else
             {
@@ -97,6 +98,44 @@ namespace FileIndexer
             tbFileInfo.Text = indexController.GetFileInfo(indexController.SelectedFile);
             treeView1.ExpandAll();
         }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            try
+            {
+                TreeNode tn = treeView1.GetNodeAt(e.Location);
+                string fullImageFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(tn.Text));
+
+                ShowImage(new FileInfo(fullImageFilePath));
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        private void tbFileInfo_DoubleClick(object sender, EventArgs e)
+        {
+            if (ShowImage(indexController.SelectedFile))
+            {
+                tbFileInfo.Visible = false;
+                tbFileInfo.Enabled = false;
+
+                pbFileImage.Visible = true;
+                pbFileImage.Enabled = true;
+            }
+        }
+
+        private void pbFileImage_DoubleClick(object sender, EventArgs e)
+        {
+            tbFileInfo.Visible = true;
+            tbFileInfo.Enabled = true;
+
+            pbFileImage.Visible = false;
+            pbFileImage.Enabled = false;
+
+        }
+
         #endregion Event handlers
 
         #region Functions
@@ -158,9 +197,44 @@ namespace FileIndexer
                 return new TreeNode(tree.GetCurrentNodeData().Name, list.ToArray());
             }
         }
+        
+        /// <summary>
+        /// If the file given as parameter is an image - it's displayed it in the right panel.
+        /// </summary>
+        /// <param name="file">The image to be displayed.</param>
+        /// <returns>Returns true if everything is OK and false if errors occur.</returns>
+        private bool ShowImage(FileSystemInfo file)
+        {
+
+
+            if (!indexController.IsImage(file))
+                return false;
+
+            try
+            {
+                pbFileImage.Image = Image.FromFile(file.FullName);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            tbFileInfo.Visible = false;
+            tbFileInfo.Enabled = false;
+
+            pbFileImage.Visible = true;
+            pbFileImage.Enabled = true;
+
+            pbFileImage.Image = Image.FromFile(file.FullName);
+
+            return true;
+        }
+
 
         #endregion
 
-     
+
+       
+
     }
 }

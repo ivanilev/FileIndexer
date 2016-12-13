@@ -80,7 +80,7 @@ namespace FileIndexer.Controller
                     myTreeResult.AddChild(item);
                 }
                 //If it's a folder - iterate through it, save the result in a Treenode<FileSystemInfo> type and add that node to the main tree.
-                else 
+                else
                 {
                     TreeNode<FileSystemInfo> subTree = GetAllFilesRecursively(item.FullName);
                     myTreeResult.AddChild(subTree);
@@ -89,7 +89,7 @@ namespace FileIndexer.Controller
 
             return Tree = myTreeResult;
         }
-        
+
         /// <summary>
         /// Retrieves information about a file or folder in string format.
         /// </summary>
@@ -102,7 +102,7 @@ namespace FileIndexer.Controller
             StringBuilder result = new StringBuilder();
             if (DataInfo.Exists == false) { return string.Empty; }
 
-            
+
             result.Append("Creation time:\t");//Some lines use a single "\t" and others double "\t\t".
             result.AppendLine(DataInfo.CreationTime.ToString()); //A tab character will align text to the next tab stop, which is about 8 characters. 
             result.AppendLine();
@@ -140,7 +140,7 @@ namespace FileIndexer.Controller
                 result.Append("Extention:\t\t");
                 result.AppendLine(fi.Extension.ToString());
             }
-            else 
+            else
             {
                 DirectoryInfo di = DataInfo as DirectoryInfo;
                 result.AppendLine(di.Attributes.HasFlag(FileAttributes.ReadOnly).ToString());
@@ -148,6 +148,22 @@ namespace FileIndexer.Controller
             result.AppendLine();
 
             return result.ToString();
+        }
+
+        public bool IsImage(FileSystemInfo DataInfo)
+        {
+            if (DataInfo.GetType() == typeof(DirectoryInfo))
+                return false;
+
+            FileInfo file = DataInfo as FileInfo;
+
+            List<string> extentions = new List<string>(new string[] { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" });
+
+            if (!extentions.Contains(file.Extension.ToUpper()))
+                return false;
+
+
+            return true;
         }
     }
 }
