@@ -45,6 +45,11 @@ namespace FileIndexer
                 MessageBox.Show(ex.Message);
                 btnSelectFolder.Focus();
             }
+            catch(Exception)
+            {
+                MessageBox.Show("An error has occured, please try again!");
+                btnSelectFolder.Focus();
+            }
 
 
             btnSearch.Enabled = true;
@@ -162,6 +167,37 @@ namespace FileIndexer
 
         }
 
+        private void tsmOpenFile_Click(object sender, EventArgs e)
+        {
+            string result = indexController.OpenFile(indexController.SelectedFile.FullName);
+
+            if (!string.IsNullOrEmpty(result))
+                MessageBox.Show("Error!" + Environment.NewLine + result);
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // Point where the mouse is clicked.
+                Point p = new Point(e.X, e.Y);
+
+                // Get the node that the user has clicked.
+                TreeNode node = treeView1.GetNodeAt(p);
+
+                if (node != null)
+                {
+                    //IndexController.SelectedFile is now the file in the right clicked node .
+                    FileSystemInfo file = GetFileFromNode(node);
+                    if (file != null)
+                        indexController.SelectedFile = file;
+
+                    //Finally, show node.
+                    cmsNodeClick.Show(treeView1, p);
+                }
+            }
+        }
+
         #endregion Event handlers
 
         #region Functions
@@ -260,10 +296,20 @@ namespace FileIndexer
         }
 
 
+        private FileSystemInfo GetFileFromNode(TreeNode node)
+        {
+            string fullFilePath = indexController.MyDict.Keys.FirstOrDefault(x => x.Contains(node.Name));
+            FileSystemInfo result;
+            bool itworks = indexController.MyDict.TryGetValue(fullFilePath, out result);
+
+            if (itworks)
+                return result;
+            else
+                return null;
+        }
+
         #endregion
 
-
-       
 
     }
 }

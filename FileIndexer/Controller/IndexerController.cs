@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -150,6 +151,11 @@ namespace FileIndexer.Controller
             return result.ToString();
         }
 
+        /// <summary>
+        /// Returns труе if the parameter's extention is an image, false if it isn't.
+        /// </summary>
+        /// <param name="DataInfo"></param>
+        /// <returns></returns>
         public bool IsImage(FileSystemInfo DataInfo)
         {
             if (DataInfo.GetType() == typeof(DirectoryInfo))
@@ -162,8 +168,25 @@ namespace FileIndexer.Controller
             if (!extentions.Contains(file.Extension.ToUpper()))
                 return false;
 
-
             return true;
+        }
+
+        /// <summary>
+        /// Opens the file in the specified filepath.
+        /// </summary>
+        /// <param name="photoFilepath">The full filepath of the file.</param>
+        /// <returns>A message of the error if there is one, or an empty string if no errors occur.</returns>
+        public string OpenFile(string photoFilepath)
+        {
+            try
+            {
+                Process.Start(photoFilepath);
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+            return string.Empty;
         }
     }
 }

@@ -30,7 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panelTopContainer = new System.Windows.Forms.Panel();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.btnSelectFolder = new System.Windows.Forms.Button();
+            this.tbSearch = new System.Windows.Forms.TextBox();
+            this.lblSearch = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
@@ -42,9 +45,8 @@
             this.tbSelectedNode = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tbSearch = new System.Windows.Forms.TextBox();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
+            this.cmsNodeClick = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmOpenImage = new System.Windows.Forms.ToolStripMenuItem();
             this.indexerControllerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelTopContainer.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -55,21 +57,38 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFileImage)).BeginInit();
             this.panelBotContainer.SuspendLayout();
+            this.cmsNodeClick.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTopContainer
             // 
+            this.panelTopContainer.Controls.Add(this.btnSearch);
             this.panelTopContainer.Controls.Add(this.btnSelectFolder);
+            this.panelTopContainer.Controls.Add(this.tbSearch);
+            this.panelTopContainer.Controls.Add(this.lblSearch);
             this.panelTopContainer.Controls.Add(this.label1);
-            this.panelTopContainer.Location = new System.Drawing.Point(12, 33);
+            this.panelTopContainer.Location = new System.Drawing.Point(12, 12);
             this.panelTopContainer.Name = "panelTopContainer";
-            this.panelTopContainer.Size = new System.Drawing.Size(984, 52);
+            this.panelTopContainer.Size = new System.Drawing.Size(984, 73);
             this.panelTopContainer.TabIndex = 0;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Enabled = false;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSearch.Location = new System.Drawing.Point(821, 21);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(140, 37);
+            this.btnSearch.TabIndex = 5;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnSelectFolder
             // 
-            this.btnSelectFolder.Location = new System.Drawing.Point(276, 7);
+            this.btnSelectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSelectFolder.Location = new System.Drawing.Point(264, 19);
             this.btnSelectFolder.Name = "btnSelectFolder";
             this.btnSelectFolder.Size = new System.Drawing.Size(201, 37);
             this.btnSelectFolder.TabIndex = 3;
@@ -77,13 +96,32 @@
             this.btnSelectFolder.UseVisualStyleBackColor = true;
             this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
             // 
+            // tbSearch
+            // 
+            this.tbSearch.Enabled = false;
+            this.tbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbSearch.Location = new System.Drawing.Point(628, 25);
+            this.tbSearch.Name = "tbSearch";
+            this.tbSearch.Size = new System.Drawing.Size(187, 29);
+            this.tbSearch.TabIndex = 3;
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblSearch.Location = new System.Drawing.Point(471, 12);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(151, 44);
+            this.lblSearch.TabIndex = 4;
+            this.lblSearch.Text = "Search:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(34, 7);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 28F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(0, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 37);
+            this.label1.Size = new System.Drawing.Size(255, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "Select Folder:";
             // 
@@ -123,6 +161,7 @@
             this.treeView1.Size = new System.Drawing.Size(477, 515);
             this.treeView1.TabIndex = 1;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
             // 
             // dataGridView1
@@ -184,34 +223,19 @@
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // tbSearch
+            // cmsNodeClick
             // 
-            this.tbSearch.Enabled = false;
-            this.tbSearch.Location = new System.Drawing.Point(72, 4);
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(187, 20);
-            this.tbSearch.TabIndex = 3;
+            this.cmsNodeClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmOpenImage});
+            this.cmsNodeClick.Name = "cmsNodeClick";
+            this.cmsNodeClick.Size = new System.Drawing.Size(104, 26);
             // 
-            // lblSearch
+            // tsmOpenImage
             // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSearch.Location = new System.Drawing.Point(9, 7);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(57, 17);
-            this.lblSearch.TabIndex = 4;
-            this.lblSearch.Text = "Search:";
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Enabled = false;
-            this.btnSearch.Location = new System.Drawing.Point(265, 4);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(57, 20);
-            this.btnSearch.TabIndex = 5;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.tsmOpenImage.Name = "tsmOpenImage";
+            this.tsmOpenImage.Size = new System.Drawing.Size(103, 22);
+            this.tsmOpenImage.Text = "Open";
+            this.tsmOpenImage.Click += new System.EventHandler(this.tsmOpenFile_Click);
             // 
             // indexerControllerBindingSource
             // 
@@ -222,9 +246,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 729);
-            this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.lblSearch);
-            this.Controls.Add(this.tbSearch);
             this.Controls.Add(this.panelBotContainer);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelTopContainer);
@@ -247,6 +268,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbFileImage)).EndInit();
             this.panelBotContainer.ResumeLayout(false);
             this.panelBotContainer.PerformLayout();
+            this.cmsNodeClick.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.indexerControllerBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -272,6 +294,8 @@
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.PictureBox pbFileImage;
+        private System.Windows.Forms.ContextMenuStrip cmsNodeClick;
+        private System.Windows.Forms.ToolStripMenuItem tsmOpenImage;
     }
 }
 
