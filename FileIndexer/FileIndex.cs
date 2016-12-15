@@ -308,8 +308,12 @@ namespace FileIndexer
                 return null;
         }
 
+
         #endregion
 
+        private void tbSearch_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
